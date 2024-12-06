@@ -68,3 +68,5 @@ create table board_file_table
     constraint fk_board_file foreign key(boardId) references board_table(id) on delete cascade
 );
 ```
+## 노션 이미지
+https://www.notion.so/SpringBoot-mysql-mybatis-01_-mybatis-mysql-e2c1d6d91b704e028ad31aa31b4803d4?pvs=4
