@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+    <!-- parameterType="board" ==> mybatis-config.xml의 alias임 / 아니면 전체 경로를 기술해야함 -->
+    <insert id="save" parameterType="board">
+        insert into board_table(boardTitle,boardWriter,boardPass,boardContents)
+        values(#{boardTitle},#{boardWriter},#{boardPass},#{boardContents})
+    </insert>
+
+    <select id="findAll" resultType="board">
+        select * from board_table order by id desc
+    </select>
+
+    <update id="updateHits" parameterType="Long">
+        update board_Table set boardHits = boardHits + 1 where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="Long" resultType="board">
+        select id, boardTitle, boardWriter, boardPass, boardContents, boardHits,
+        date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt
+        from board_table where id=#{id}
+    </select>
+
+    <update id="update">
+        update board_table set boardTitle=#{boardTitle}, boardContents=#{boardContents}
+         where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        delete from board_table where id=#{id}
+    </delete>
+
+</mapper>
