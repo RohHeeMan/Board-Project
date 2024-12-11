@@ -1,5 +1,8 @@
 package com.codingrecipe.board.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.codingrecipe.board.dto.BoardDTO;
 import com.codingrecipe.board.dto.BoardFileDTO;
 import com.codingrecipe.board.service.BoardService;
@@ -17,6 +20,8 @@ public class BoardController {
     // 생성자 주입 방식을 사용하는 형태임.
     // 컨트롤러는 서비스와 연동하므로
     private final BoardService boardService;
+    //slf4j 로그 사용
+    private final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
     //https://www.youtube.com/watch?v=7sFim7OUBws
     // 게시글 작성을 위한 부분
@@ -60,12 +65,19 @@ public class BoardController {
         // 여기에서 model.addAttribute("board", boardDTO);처럼 첫 번째 인자에 속성 이름을 지정해야 합니다.
         // 첫번째 인자를 쓰지않고 그냥 boardDTO만 넘겨서 오류가 html파일에서 발생했음...
         model.addAttribute("board", boardDTO);
+        // 로그추가
+        logger.info("board: {}", boardDTO);
 
         // 첨부 파일이 있을 경우(detail.html에서 사용할 이름 : <td th:each="boardFile: ${boardFileList}"> )
         if (boardDTO.getFileAttached()==1){
             List<BoardFileDTO> boardFileDTO = boardService.findFile(id);
             model.addAttribute("boardFileList", boardFileDTO);
+            // 로그추가
+            logger.info("boardFileList: {}", boardFileDTO);
         }
+
+
+
         return "detail";
     }
 
