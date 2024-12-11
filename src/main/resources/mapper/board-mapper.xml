@@ -4,9 +4,11 @@
 
 <mapper namespace="Board">
     <!-- parameterType="board" ==> mybatis-config.xml의 alias임 / 아니면 전체 경로를 기술해야함 -->
-    <insert id="save" parameterType="board">
-        insert into board_table(boardTitle,boardWriter,boardPass,boardContents)
-        values(#{boardTitle},#{boardWriter},#{boardPass},#{boardContents})
+    <!-- board mybatis-config.xml에 설정된 파라미터 이름임 -->
+    <!-- useGeneratedKeys="true" keyProperty="id" 확인 요망 -->
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into board_table(boardTitle,boardWriter,boardPass,boardContents, fileAttached)
+        values(#{boardTitle},#{boardWriter},#{boardPass},#{boardContents}, #{fileAttached})
     </insert>
 
     <select id="findAll" resultType="board">
@@ -19,7 +21,7 @@
 
     <select id="findById" parameterType="Long" resultType="board">
         select id, boardTitle, boardWriter, boardPass, boardContents, boardHits,
-        date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt
+        date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt, fileAttached
         from board_table where id=#{id}
     </select>
 
@@ -31,5 +33,18 @@
     <delete id="delete" parameterType="Long">
         delete from board_table where id=#{id}
     </delete>
+
+    <!-- boardFile은 mybatis-config.xml에 설정된 파라미터 이름임 -->
+    <insert id="saveFile" parameterType="boardFile">
+        insert into board_file_table(originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
+    </insert>
+
+    <!-- 첨부파일 가져오기 -->
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        <!-- select문장 잘 써야 한다.. boardId가 id와 같은 것을 가져와야 한다 -->
+        <!-- 조건을 잘못 써서 이미지가 나오지 않아 엄청 고생 했음 -->
+        select * from board_file_table where boardId=#{id}
+    </select>
 
 </mapper>

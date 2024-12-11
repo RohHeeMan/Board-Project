@@ -1,12 +1,14 @@
 package com.codingrecipe.board.controller;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.BoardFileDTO;
 import com.codingrecipe.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -30,7 +32,7 @@ public class BoardController {
     // 1. html을 BoardDTO에 맞게 만듬
     // 2. 생성한 BoardDTO를 @ModelAttribute를 통하여
     // 3. BoardService에 전달함(Controller는 Service를 참조함 / Service는 Repository를 참조함 )
-    public String save(@ModelAttribute BoardDTO boardDTO){
+    public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         System.out.println("boardDTO = " + boardDTO);
         // boardService의 save를 호출함(boardDTO)를 파라미터로 넘겨줌
         boardService.save(boardDTO);
@@ -58,6 +60,12 @@ public class BoardController {
         // 여기에서 model.addAttribute("board", boardDTO);처럼 첫 번째 인자에 속성 이름을 지정해야 합니다.
         // 첫번째 인자를 쓰지않고 그냥 boardDTO만 넘겨서 오류가 html파일에서 발생했음...
         model.addAttribute("board", boardDTO);
+
+        // 첨부 파일이 있을 경우(detail.html에서 사용할 이름 : <td th:each="boardFile: ${boardFileList}"> )
+        if (boardDTO.getFileAttached()==1){
+            List<BoardFileDTO> boardFileDTO = boardService.findFile(id);
+            model.addAttribute("boardFileList", boardFileDTO);
+        }
         return "detail";
     }
 

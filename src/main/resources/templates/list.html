@@ -8,14 +8,15 @@
 <body>
 <div class="container mt-5">
   <h1 class="mb-4">게시판 목록</h1>
-    <table class="table table-sm table-hover">
+  <table class="table table-sm table-hover">
     <thead class="thead-dark">
     <tr>
       <th>번호</th>
       <th>제목</th>
       <th>작성자</th>
-      <th>작성시간</th>
+      <th>내용</th>
       <th>조회수</th>
+      <th>작성시간</th>
       <th>관리</th> <!-- 관리 열 추가 -->
     </tr>
     </thead>
@@ -26,8 +27,9 @@
         <a th:text="${board.boardTitle}" th:href="@{|/${board.id}|}"></a>
       </td>
       <td th:text="${board.boardWriter}"></td>
-      <td th:text="${board.createdAt}"></td>
+      <td th:text="${board.boardContents}"></td>
       <td th:text="${board.boardHits}"></td>
+      <td th:text="${board.createdAt}"></td>
       <td>
         <!-- 삭제 버튼 -->
         <form th:action="@{/delete/{id}(id=${board.id})}" method="post" style="display: inline;"

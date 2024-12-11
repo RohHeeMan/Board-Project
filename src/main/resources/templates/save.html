@@ -10,6 +10,7 @@
 <body>
 <div class="container mt-5">
   <h1 class="text-center mb-4">게시물 작성</h1>
+  <!-- enctype="multipart/form-data" 파일 첨부 : 파일이 전송되어 나중에 list.html로 확인 -->
   <form action="/save" method="post" enctype="multipart/form-data" class="border p-4 rounded shadow">
     <div class="mb-3">
       <label for="boardTitle" class="form-label">제목</label>
@@ -27,13 +28,14 @@
       <label for="boardContents" class="form-label">내용</label>
       <textarea id="boardContents" name="boardContents" class="form-control" rows="6" placeholder="내용을 입력하세요" required></textarea>
     </div>
-    <!--
-    파일 업로드 필드 활성화 시 사용 가능
+
+    <!-- private List<MultipartFile> boardFile; BoardDTO에 설정된 이름과 같아야 한다 -->
     <div class="mb-3">
         <label for="boardFile" class="form-label">파일 첨부</label>
-        <input type="file" id="boardFile" name="boardFile" class="form-control" multiple>
+        <input type="file" id="boardFile" name="boardFile" class="form-control" multiple><br>
+        <input type="submit" value="작성">
     </div>
-    -->
+
     <div class="text-center">
       <button type="submit" class="btn btn-primary">작성</button>
       <a href="/list" class="btn btn-secondary">취소</a>

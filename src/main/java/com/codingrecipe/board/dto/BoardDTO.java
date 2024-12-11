@@ -19,6 +19,8 @@ public class BoardDTO {
     private String boardContents;
     private int boardHits;
     private String createdAt;
-    //private int fileAttached;
-    //private List<MultipartFile> boardFile;
+    // 파일 첨부 관련 변수 설정
+    private int fileAttached; // 존재 유무
+    // MultipartFile 스프링에서 제공하는 인터페이스 / 여러개 파일 사용하기 위해 List사용
+    private List<MultipartFile> boardFile;
 }
