@@ -45,13 +45,14 @@
                     <th class="table-primary text-center">첨부 이미지</th>
                     <!-- BoardController의 findById의 model.addAttribute("boardFileList", boardFileDTO);에 있는 이름과 일치 -->
                     <td th:each="boardFile : ${boardFileList}">
-                        <p th:text="'파일명: ' + ${boardFile.storedFileName}"></p>
+                        <!-- 파일명이 잘 찍히는지 보기위해서 -->
+                        <!-- <p th:text="'파일명: ' + ${boardFile.storedFileName}"></p> -->
                         <!-- upload는 WebConfig에 설정된 이름과 같다 -->
-                        <!--<img th:src="@{|/upload/${boardFile.storedFileName}|}"
+                        <img th:src="@{|/upload/${boardFile.storedFileName}|}"
                              alt="첨부 이미지"
                              style="margin: 5px;"
-                             width="200" height="200">-->
-                        <img src="/upload/1733899038465-people.png" alt="첨부 이미지" style="margin: 5px;" width="200" height="200">
+                             width="200" height="200">
+                        <!--<img src="/upload/1733899038465-people.png" alt="첨부 이미지" style="margin: 5px;" width="200" height="200">-->
                     </td>
                 </tr>
 

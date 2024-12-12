@@ -70,13 +70,34 @@ public class BoardController {
 
         // 첨부 파일이 있을 경우(detail.html에서 사용할 이름 : <td th:each="boardFile: ${boardFileList}"> )
         if (boardDTO.getFileAttached()==1){
-            List<BoardFileDTO> boardFileDTO = boardService.findFile(id);
-            model.addAttribute("boardFileList", boardFileDTO);
+            // 단일 파일일 경우 처리
+//          BoardFileDTO boardFileDTO = boardService.findFile(id);
+//          model.addAttribute("boardFile", boardFileDTO);
+
+            // 다중 파일일 경우의 처리 : List타입으로 가져온다.
+            // 그 다음 BoardService의 save로 가서 BoardFile가져올 경우는
+            //  if (boardDTO.getBoardFile().get(0).isEmpty()){ 이런식으로 가져오고
+            // 단일 파일일 경우는
+            // if (boardDTO.getBoardFile().isEmpty()){ 이렇게 가져온다.
+            // 그리고  MultipartFile boardFile = boardDTO.getBoardFile();를
+            // for (MultipartFile boardFile: boardDTO.getBoardFile()) { 게 바꿔주면 된다.
+
+            // 그리고 findFile도 List로 리턴하도록 수정
+            // public List<BoardFileDTO> findFile(Long id) {
+
+            // 그리고 BoardRepository의 public List<BoardFileDTO> findFile(Long id) {
+            // findFile도 List로 바꿔야 함.
+            // selectOne이 아니고 selectList로 바꿔줌 return sql.selectList("Board.findFile", id);
+
+            // 그 다음 BoardDTO에 가서
+            // private List<MultipartFile> boardFile; 이렇게 List로 가져오도록 수정한다.
+
+            List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
+            model.addAttribute("boardFileList", boardFileDTOList);
+
             // 로그추가
-            logger.info("boardFileList: {}", boardFileDTO);
+            logger.info("boardFileList: {}", boardFileDTOList);
         }
-
-
 
         return "detail";
     }

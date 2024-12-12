@@ -18,9 +18,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public void save(BoardDTO boardDTO) throws IOException {
-        // 무조건 파일이 있다고 처리되어 아래처럼 물어봐야 파일이 없다는 결과가 나온다.
-        // 다중 파일 등록이므로 그런것으로 보인다.
+        // 단일 파일일 경우는 아래처럼 가져온다.
         //if (boardDTO.getBoardFile().isEmpty()) {
+        // 다중 파일 등록이므로 아래처럼 가져온다.
         if (boardDTO.getBoardFile().get(0).isEmpty()){
             // 파일 없다.
             boardDTO.setFileAttached(0);
@@ -30,7 +30,11 @@ public class BoardService {
             boardDTO.setFileAttached(1);
             // 게시글 저장 후 id값 활용을 위해 리턴 받음.
             BoardDTO savedBoard = boardRepository.save(boardDTO);
-            // 파일만 따로 가져오기
+
+            // 하나일 경우의 처리
+            // MultipartFile boardFile = boardDTO.getBoardFile();
+
+            // 반복문을 통해서 가져오기 ( 파일이 여러개인 경우의 처리 )
             for (MultipartFile boardFile: boardDTO.getBoardFile()) {
                 // 파일 이름 가져오기
                 String originalFilename = boardFile.getOriginalFilename();
